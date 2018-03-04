@@ -67,6 +67,9 @@ server {
 		{{$value}}{{end}}
 		{{- end}}
 
+		level_of_assurance {{$location.LevelOfAssurance}};
+
+
 		proxy_connect_timeout {{$location.ProxyConnectTimeout}};
 		proxy_read_timeout {{$location.ProxyReadTimeout}};
 		client_max_body_size {{$location.ClientMaxBodySize}};

@@ -33,6 +33,7 @@ type Config struct {
 	MainWorkerConnections         string
 	MainWorkerRlimitNofile        string
 	Keepalive                     int64
+	LevelOfAssurance              int64
 
 	// http://nginx.org/en/docs/http/ngx_http_realip_module.html
 	RealIPHeader    string

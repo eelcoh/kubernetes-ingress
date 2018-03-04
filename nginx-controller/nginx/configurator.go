@@ -342,7 +342,13 @@ func (cnf *Configurator) createConfig(ingEx *IngressEx) Config {
 	if len(sslPorts) > 0 {
 		ingCfg.SSLPorts = sslPorts
 	}
-
+	if levelOfAssurance, exists, err := GetMapKeyAsInt(ingEx.Ingress.Annotations, "ingress.path/level-of-assurance", ingEx.Ingress); exists {
+		if err != nil {
+			glog.Error(err)
+		} else {
+			ingCfg.LevelOfAssurance = levelOfAssurance
+		}
+	}
 	if keepalive, exists, err := GetMapKeyAsInt(ingEx.Ingress.Annotations, "nginx.org/keepalive", ingEx.Ingress); exists {
 		if err != nil {
 			glog.Error(err)
@@ -507,6 +513,7 @@ func createLocation(path string, upstream Upstream, cfg *Config, websocket bool,
 		ProxyBufferSize:      cfg.ProxyBufferSize,
 		ProxyMaxTempFileSize: cfg.ProxyMaxTempFileSize,
 		LocationSnippets:     cfg.LocationSnippets,
+		LevelOfAssurance:     cfg.LevelOfAssurance,
 	}
 
 	return loc
@@ -710,7 +717,7 @@ func (cnf *Configurator) UpdateConfig(config *Config, ingExes []*IngressEx) erro
 		WorkerCPUAffinity:     config.MainWorkerCPUAffinity,
 		WorkerShutdownTimeout: config.MainWorkerShutdownTimeout,
 		WorkerConnections:     config.MainWorkerConnections,
-		WorkerRlimitNofile:     config.MainWorkerRlimitNofile,
+		WorkerRlimitNofile:    config.MainWorkerRlimitNofile,
 	}
 
 	cnf.nginx.UpdateMainConfigFile(mainCfg)

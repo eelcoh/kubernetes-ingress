@@ -98,6 +98,7 @@ type Location struct {
 	ProxyBuffers         string
 	ProxyBufferSize      string
 	ProxyMaxTempFileSize string
+	LevelOfAssurance	 int64
 }
 
 // NginxMainConfig describe the main NGINX configuration file
